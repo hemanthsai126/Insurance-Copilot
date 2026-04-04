@@ -1,0 +1,44 @@
+# Python
+backend/.venv/
+__pycache__/
+*.py[cod]
+*$py.class
+.Python
+*.egg-info/
+.eggs/
+dist/
+*.egg
+
+# Node
+frontend/node_modules/
+frontend/dist/
+frontend/tsconfig.tsbuildinfo
+npm-debug.log*
+
+# Env & secrets
+.env
+.env.*
+!.env.example
+
+# IDE / OS
+.idea/
+.vscode/
+.DS_Store
+*.swp
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Local RAG / vector DB (if added later)
+**/chroma*/
+**/.chroma/
+
+# Misc
+*.log
+coverage/
+.pytest_cache/
+
+# Large local datasets / scratch (GitHub max ~100MB per file; keep out of repo or use Git LFS)
+US_Crime_DataSet.csv
+dataset.arff
+Untitled document.pdf
