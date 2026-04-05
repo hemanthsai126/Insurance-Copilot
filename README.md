@@ -87,11 +87,18 @@ See the in-app **About** page for the full list.
 
 [GitHub Pages](https://pages.github.com/) only hosts **static files**. This repo includes a workflow that builds the **Vite** app and publishes `frontend/dist`.
 
-1. Push the latest `main` (includes `.github/workflows/deploy-pages.yml`).
-2. In the repo: **Settings → Pages → Build and deployment → Source: GitHub Actions**.
-3. After the workflow runs, the site will be at  
-   `https://<your-username>.github.io/<repo-name>/`  
-   (e.g. `https://hemanthsai126.github.io/Insurance-Copilot/`).
+### One-time setup (required)
+
+If you skip this, the **Deploy** job fails with **HTTP 404** (`Failed to create deployment`).
+
+1. Open **[Settings → Pages](https://github.com/hemanthsai126/Insurance-Copilot/settings/pages)** for this repository.
+2. Under **Build and deployment**, set **Source** to **GitHub Actions** (not “Deploy from a branch”).
+3. Save. Then push to `main` or run the workflow manually (**Actions → Deploy frontend to GitHub Pages → Run workflow**).
+
+After a successful run, the site is at:
+
+`https://<your-username>.github.io/<repo-name>/`  
+(e.g. `https://hemanthsai126.github.io/Insurance-Copilot/`).
 
 **Backend:** The FastAPI API does **not** run on GitHub Pages. For the live site to call your API:
 
