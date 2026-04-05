@@ -8,7 +8,13 @@ import type {
   RiskoMessage,
 } from "./types";
 
-const API = "/api";
+/** Same-origin `/api` in dev (Vite proxy). On GitHub Pages set `VITE_API_BASE_URL` to your API origin, e.g. `https://api.example.com`. */
+function apiPrefix(): string {
+  const root = (import.meta.env.VITE_API_BASE_URL as string | undefined)?.trim().replace(/\/$/, "") ?? "";
+  return root ? `${root}/api` : "/api";
+}
+
+const API = apiPrefix();
 
 export async function analyzeBusiness(
   profile: BusinessProfile,

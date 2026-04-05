@@ -83,6 +83,28 @@ See the in-app **About** page for the full list.
 
 ---
 
+## Deploy the frontend on GitHub Pages
+
+[GitHub Pages](https://pages.github.com/) only hosts **static files**. This repo includes a workflow that builds the **Vite** app and publishes `frontend/dist`.
+
+1. Push the latest `main` (includes `.github/workflows/deploy-pages.yml`).
+2. In the repo: **Settings → Pages → Build and deployment → Source: GitHub Actions**.
+3. After the workflow runs, the site will be at  
+   `https://<your-username>.github.io/<repo-name>/`  
+   (e.g. `https://hemanthsai126.github.io/Insurance-Copilot/`).
+
+**Backend:** The FastAPI API does **not** run on GitHub Pages. For the live site to call your API:
+
+- Deploy the backend somewhere that exposes HTTPS (VPS, Railway, Render, etc.).
+- Add a [repository secret](https://docs.github.com/en/actions/security-guides/using-secrets-in-github-actions) named **`VITE_API_BASE_URL`** with your API **origin only** (no trailing `/api`), e.g. `https://your-api.example.com`.  
+  The build injects it so the browser calls `https://your-api.example.com/api/...`.
+- On the backend, set **`CORS_ORIGINS`** to your GitHub Pages URL, e.g.  
+  `https://hemanthsai126.github.io` (or the exact Pages URL including path if needed).
+
+If **`VITE_API_BASE_URL`** is unset, the Pages build still works, but **API requests from the browser will fail** until you add the secret and redeploy (or browse the app locally with `npm run dev`).
+
+---
+
 ## Repository
 
 [github.com/hemanthsai126/Insurance-Copilot](https://github.com/hemanthsai126/Insurance-Copilot)
