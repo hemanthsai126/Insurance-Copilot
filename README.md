@@ -83,47 +83,6 @@ See the in-app **About** page for the full list.
 
 ---
 
-## Deploy the frontend on GitHub Pages
-
-[GitHub Pages](https://pages.github.com/) only hosts **static files**. This repo includes a workflow that builds the **Vite** app and publishes `frontend/dist`.
-
-### One-time setup (required)
-
-If you skip this, the **Deploy** job fails with **HTTP 404** (`Failed to create deployment`).
-
-1. Open **[Settings → Pages](https://github.com/hemanthsai126/Insurance-Copilot/settings/pages)** for this repository.
-2. Under **Build and deployment**, set **Source** to **GitHub Actions** (not “Deploy from a branch”).
-3. Save. Then push to `main` or run the workflow manually (**Actions → Deploy frontend to GitHub Pages → Run workflow**).
-
-After a successful run, the site is at:
-
-`https://<your-username>.github.io/<repo-name>/`  
-(e.g. `https://hemanthsai126.github.io/Insurance-Copilot/`).
-
-**Backend:** The FastAPI API does **not** run on GitHub Pages. For the live site to call your API:
-
-- Deploy the backend somewhere that exposes HTTPS (VPS, Railway, Render, etc.).
-- Add a [repository secret](https://docs.github.com/en/actions/security-guides/using-secrets-in-github-actions) named **`VITE_API_BASE_URL`** with your API **origin only** (no trailing `/api`), e.g. `https://your-api.example.com`.  
-  The build injects it so the browser calls `https://your-api.example.com/api/...`.
-- On the backend, set **`CORS_ORIGINS`** to your GitHub Pages URL, e.g.  
-  `https://hemanthsai126.github.io` (or the exact Pages URL including path if needed).
-
-If **`VITE_API_BASE_URL`** is unset, the Pages build still works, but **API requests from the browser will fail** until you add the secret and redeploy (or browse the app locally with `npm run dev`).
-
-### Custom domain (e.g. `app.yourdomain.com`)
-
-GitHub will prompt you to configure DNS — that’s expected.
-
-1. **Repo → Settings → Pages → Custom domain** — enter your domain (e.g. `app.example.com` or `www.example.com`).
-2. At your **DNS host** (where you bought the domain), add the records GitHub shows. Typical patterns:
-   - **Subdomain** (`app` or `www`): **CNAME** → `hemanthsai126.github.io` (or the host GitHub displays).
-   - **Apex** (`example.com`): **A** records to GitHub’s IPs (listed in [GitHub docs](https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site/managing-a-custom-domain-for-your-github-pages-site)).
-3. Wait for DNS (often minutes, sometimes up to 24h). Check **Enforce HTTPS** after validation.
-4. **Important for this Vite app:** A custom domain is served at the **root** (`https://app.example.com/`), not under `/Insurance-Copilot/`. Set a [repository Actions variable](https://docs.github.com/en/actions/learn-github-actions/variables#creating-configuration-variables-for-a-repository) named **`VITE_BASE`** to **`/`** (just a slash), then re-run the deploy workflow. If you skip this, assets load from the wrong path and the site breaks.
-5. Update backend **`CORS_ORIGINS`** to include your custom domain (e.g. `https://app.example.com`).
-
----
-
 ## Repository
 
 [github.com/hemanthsai126/Insurance-Copilot](https://github.com/hemanthsai126/Insurance-Copilot)

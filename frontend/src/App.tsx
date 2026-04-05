@@ -5,14 +5,9 @@ import Home from "./pages/Home";
 import PremiumCompare from "./pages/PremiumCompare";
 import Risko from "./pages/Risko";
 
-function routerBasename(): string {
-  const b = import.meta.env.BASE_URL;
-  return b.replace(/\/$/, "") || "/";
-}
-
 export default function App() {
   return (
-    <BrowserRouter basename={routerBasename()}>
+    <BrowserRouter>
       <Routes>
         <Route element={<Layout />}>
           <Route index element={<Home />} />
