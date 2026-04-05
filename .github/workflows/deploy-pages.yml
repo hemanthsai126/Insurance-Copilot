@@ -33,10 +33,13 @@ jobs:
           cache: npm
           cache-dependency-path: frontend/package-lock.json
 
+      # Default: project URL is https://user.github.io/RepoName/ → base /RepoName/
+      # Custom domain (served at site root): set repo variable VITE_BASE to /
+      # Settings → Secrets and variables → Actions → Variables → VITE_BASE
       - name: Install and build
         working-directory: frontend
         env:
-          VITE_BASE: /${{ github.event.repository.name }}/
+          VITE_BASE: ${{ vars.VITE_BASE || format('/{0}/', github.event.repository.name) }}
           VITE_API_BASE_URL: ${{ secrets.VITE_API_BASE_URL }}
         run: |
           npm ci

@@ -110,6 +110,18 @@ After a successful run, the site is at:
 
 If **`VITE_API_BASE_URL`** is unset, the Pages build still works, but **API requests from the browser will fail** until you add the secret and redeploy (or browse the app locally with `npm run dev`).
 
+### Custom domain (e.g. `app.yourdomain.com`)
+
+GitHub will prompt you to configure DNS — that’s expected.
+
+1. **Repo → Settings → Pages → Custom domain** — enter your domain (e.g. `app.example.com` or `www.example.com`).
+2. At your **DNS host** (where you bought the domain), add the records GitHub shows. Typical patterns:
+   - **Subdomain** (`app` or `www`): **CNAME** → `hemanthsai126.github.io` (or the host GitHub displays).
+   - **Apex** (`example.com`): **A** records to GitHub’s IPs (listed in [GitHub docs](https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site/managing-a-custom-domain-for-your-github-pages-site)).
+3. Wait for DNS (often minutes, sometimes up to 24h). Check **Enforce HTTPS** after validation.
+4. **Important for this Vite app:** A custom domain is served at the **root** (`https://app.example.com/`), not under `/Insurance-Copilot/`. Set a [repository Actions variable](https://docs.github.com/en/actions/learn-github-actions/variables#creating-configuration-variables-for-a-repository) named **`VITE_BASE`** to **`/`** (just a slash), then re-run the deploy workflow. If you skip this, assets load from the wrong path and the site breaks.
+5. Update backend **`CORS_ORIGINS`** to include your custom domain (e.g. `https://app.example.com`).
+
 ---
 
 ## Repository
